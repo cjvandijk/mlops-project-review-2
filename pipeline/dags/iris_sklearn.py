@@ -9,16 +9,17 @@ from sklearn.metrics import accuracy_score
 # Define the default_args dictionary
 default_args = {
     'owner': 'airflow',
-    'start_date': datetime(2024, 1, 1),
+    'start_date': datetime(2024, 8, 20),
     'retries': 1,
 }
 
 # Instantiate the DAG
 dag = DAG(
-    'scikit_learn_file_example',
+    'iris_scikit',
     default_args=default_args,
-    description='A DAG to train a model using scikit-learn with file-based data passing',
+    description='iris sklearn',
     schedule_interval='@daily',
+    max_active_runs=1 
 )
 
 def load_dataset():
