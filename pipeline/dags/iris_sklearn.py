@@ -9,60 +9,60 @@ from sklearn.metrics import accuracy_score
 # Define the default_args dictionary
 default_args = {
     'owner': 'airflow',
-    'start_date': datetime(2024, 8, 13),
+    'start_date': datetime(2024, 1, 1),
     'retries': 1,
 }
 
 # Instantiate the DAG
 dag = DAG(
-    'iris_scikit_learn',
+    'scikit_learn_file_example',
     default_args=default_args,
-    description='A simple DAG to train a model using scikit-learn',
+    description='A DAG to train a model using scikit-learn with file-based data passing',
     schedule_interval='@daily',
 )
 
-
 def load_dataset():
-    """Loads a dataset with ground truth"""
-    # Example using a built-in dataset from scikit-learn
+    """Loads a dataset with ground truth and saves it to a file"""
     from sklearn.datasets import load_iris
     iris = load_iris()
     df = pd.DataFrame(iris.data, columns=iris.feature_names)
     df['target'] = iris.target
-    return df
+    df.to_csv('/tmp/iris_dataset.csv', index=False)
 
-
-def preprocess_data(**kwargs):
-    """Preprocess the data"""
-    ti = kwargs['ti']
-    df = ti.xcom_pull(task_ids='load_data')
+def preprocess_data():
+    """Preprocess the data and save it to files"""
+    df = pd.read_csv('/tmp/iris_dataset.csv')
     X = df.drop('target', axis=1)
     y = df['target']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-    return X_train, X_test, y_train, y_test
 
+    X_train.to_csv('/tmp/X_train.csv', index=False)
+    X_test.to_csv('/tmp/X_test.csv', index=False)
+    y_train.to_csv('/tmp/y_train.csv', index=False)
+    y_test.to_csv('/tmp/y_test.csv', index=False)
 
-def train_model(**kwargs):
-    """Train a RandomForest model"""
-    ti = kwargs['ti']
-    X_train, X_test, y_train, y_test = ti.xcom_pull(task_ids='preprocess_data')
+def train_model():
+    """Train a RandomForest model using the preprocessed data and save the result"""
+    X_train = pd.read_csv('/tmp/X_train.csv')
+    X_test = pd.read_csv('/tmp/X_test.csv')
+    y_train = pd.read_csv('/tmp/y_train.csv')
+    y_test = pd.read_csv('/tmp/y_test.csv')
 
     model = RandomForestClassifier(random_state=42)
-    model.fit(X_train, y_train)
+    model.fit(X_train, y_train.values.ravel())
     y_pred = model.predict(X_test)
 
     # Calculate accuracy
     accuracy = accuracy_score(y_test, y_pred)
 
-    return accuracy
+    with open('/tmp/model_accuracy.txt', 'w') as f:
+        f.write(str(accuracy))
 
-
-def store_results(**kwargs):
-    """Store the accuracy score"""
-    ti = kwargs['ti']
-    accuracy = ti.xcom_pull(task_ids='train_model')
+def store_results():
+    """Load and print the accuracy score"""
+    with open('/tmp/model_accuracy.txt', 'r') as f:
+        accuracy = f.read()
     print(f"Model accuracy: {accuracy}")
-
 
 # Define the tasks
 load_data = PythonOperator(
@@ -74,21 +74,18 @@ load_data = PythonOperator(
 preprocess_data = PythonOperator(
     task_id='preprocess_data',
     python_callable=preprocess_data,
-    provide_context=True,
     dag=dag,
 )
 
 train_model = PythonOperator(
     task_id='train_model',
     python_callable=train_model,
-    provide_context=True,
     dag=dag,
 )
 
 store_results = PythonOperator(
     task_id='store_results',
     python_callable=store_results,
-    provide_context=True,
     dag=dag,
 )
 

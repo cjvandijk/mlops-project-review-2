@@ -1,3 +1,74 @@
+worker:
+## @param extraVolumes Optionally specify extra list of additional volumes for the all the Airflow pods
+##
+  extraVolumes:
+    - name: requirements
+      configMap:
+        name: airflow-requirements
+## @param extraVolumeMounts Optionally specify extra list of additional volumeMounts for all the Airflow pods
+##
+  extraVolumeMounts:
+    - name: requirements
+      mountPath: /bitnami/python/requirements.txt
+      subPath: requirements.txt
+
+  ## Configure Airflow web pods Security Context
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  ## @param web.podSecurityContext.enabled Disabled Airflow web pods' Security Context
+  podSecurityContext:
+    enabled: false
+  ## Configure Airflow web containers (only main one) Security Context
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+  ## @param web.containerSecurityContext.enabled Disbaled Airflow web containers' Security Context
+  containerSecurityContext:
+    enabled: false
+scheduler:
+  ## @param extraVolumes Optionally specify extra list of additional volumes for the all the Airflow pods
+  ##
+  extraVolumes:
+    - name: requirements
+      configMap:
+        name: airflow-requirements
+  ## @param extraVolumeMounts Optionally specify extra list of additional volumeMounts for all the Airflow pods
+  ##
+  extraVolumeMounts:
+    - name: requirements
+      mountPath: /bitnami/python/requirements.txt
+      subPath: requirements.txt
+  ## Configure Airflow web pods Security Context
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  ## @param web.podSecurityContext.enabled Disabled Airflow web pods' Security Context
+  podSecurityContext:
+    enabled: false
+  ## Configure Airflow web containers (only main one) Security Context
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+  ## @param web.containerSecurityContext.enabled Disbaled Airflow web containers' Security Context
+  containerSecurityContext:
+    enabled: false
+web:
+  ## @param extraVolumes Optionally specify extra list of additional volumes for the all the Airflow pods
+  ##
+  extraVolumes:
+    - name: requirements
+      configMap:
+        name: airflow-requirements
+  ## @param extraVolumeMounts Optionally specify extra list of additional volumeMounts for all the Airflow pods
+  ##
+  extraVolumeMounts:
+    - name: requirements
+      mountPath: /bitnami/python/requirements.txt
+      subPath: requirements.txt
+  ## Configure Airflow web pods Security Context
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  ## @param web.podSecurityContext.enabled Disabled Airflow web pods' Security Context
+  podSecurityContext:
+    enabled: false
+  ## Configure Airflow web containers (only main one) Security Context
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+  ## @param web.containerSecurityContext.enabled Disbaled Airflow web containers' Security Context
+  containerSecurityContext:
+    enabled: false
+
 git:
   ## Get DAG files from git repositories
   ## @param git.dags.enabled Enable in order to download DAG files from git repositories.

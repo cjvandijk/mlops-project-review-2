@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: airflow-requirements
+data:
+  requirements.txt: |
+    pandas==2.2.2
+    scikit-learn==1.5.1
