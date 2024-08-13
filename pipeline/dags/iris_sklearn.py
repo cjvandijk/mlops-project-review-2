@@ -9,7 +9,7 @@ from sklearn.metrics import accuracy_score
 # Define the default_args dictionary
 default_args = {
     'owner': 'airflow',
-    'start_date': datetime(2024, 8, 20),
+    'start_date': datetime(2024, 8, 12),
     'retries': 1,
 }
 
