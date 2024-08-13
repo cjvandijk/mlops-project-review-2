@@ -1,0 +1,27 @@
+git:
+  ## Get DAG files from git repositories
+  ## @param git.dags.enabled Enable in order to download DAG files from git repositories.
+  ## @param git.dags.repositories [array] Array of repositories from which to download DAG files
+  ##
+  dags:
+    enabled: true
+    ## Name for repositories can be anything unique and must follow same naming conventions as kubernetes.
+    ## Kubernetes resources can have names up to 253 characters long. The characters allowed in names are:
+    ## digits (0-9), lower case letters (a-z), -, and .
+    ## Example:
+    ##   - repository: https://github.com/myuser/myrepo
+    ##     branch: main
+    ##     name: my-dags
+    ##     path: /
+    ##
+    repositories:
+      - repository: "https://github.com/babaksit/mlops-e2e"
+        ## Branch from repository to checkout
+        ##
+        branch: "develop"
+        ## An unique identifier for repository, must be unique for each repository
+        ##
+        name: "iris_sklearn"
+        ## Path to a folder in the repository containing the dags
+        ##
+        path: "/pipeline/dags"
