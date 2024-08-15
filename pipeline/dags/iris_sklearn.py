@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score
 import mlflow
 import mlflow.sklearn
 
-mlflow.set_tracking_uri("http://10.100.181.117:80")
+mlflow.set_tracking_uri("http://mlflow-release-tracking.default.svc.cluster.local:80")
 mlflow.set_experiment("iris_sklearn_experiment")
 
 
