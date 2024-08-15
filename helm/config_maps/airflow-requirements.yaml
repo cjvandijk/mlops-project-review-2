@@ -4,6 +4,6 @@ metadata:
   name: airflow-requirements
 data:
   requirements.txt: |
-    pandas
-    scikit-learn
-    mlflow
+    pandas==2.1.4
+    scikit-learn==1.5.1
+    mlflow==2.15.1

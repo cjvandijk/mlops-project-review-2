@@ -1,9 +1,5 @@
-# User MLflow username and password
-tracking:
-  auth:
-    username: mluser
-    password: testpwd
 
-# No need to create a job to run the experiment
-run:
-  enabled: false
+# Disable tracking server password
+tracking: 
+  auth:
+    enabled: false

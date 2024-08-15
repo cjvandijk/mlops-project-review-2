@@ -7,9 +7,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import mlflow
 import mlflow.sklearn
-import logging
-
-logging.getLogger("mlflow").setLevel(logging.DEBUG)
 
 mlflow.set_tracking_uri("http://mlflow-release-tracking.default.svc.cluster.local:80")
 mlflow.set_experiment("iris_sklearn_experiment")
