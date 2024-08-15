@@ -6,3 +6,4 @@ data:
   requirements.txt: |
     pandas
     scikit-learn
+    mlflow

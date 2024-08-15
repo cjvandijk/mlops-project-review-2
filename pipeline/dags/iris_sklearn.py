@@ -5,6 +5,12 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
+import mlflow
+import mlflow.sklearn
+
+mlflow.set_tracking_uri("10.100.181.117:80")
+mlflow.set_experiment("iris_sklearn_experiment")
+
 
 # Define the default_args dictionary
 default_args = {
@@ -49,15 +55,22 @@ def train_model():
     y_train = pd.read_csv('/tmp/y_train.csv')
     y_test = pd.read_csv('/tmp/y_test.csv')
 
-    model = RandomForestClassifier(random_state=42)
-    model.fit(X_train, y_train.values.ravel())
-    y_pred = model.predict(X_test)
+    # Start MLflow run
+    with mlflow.start_run():
+        model = RandomForestClassifier(random_state=42)
+        model.fit(X_train, y_train.values.ravel())
+        y_pred = model.predict(X_test)
 
-    # Calculate accuracy
-    accuracy = accuracy_score(y_test, y_pred)
+        # Calculate accuracy
+        accuracy = accuracy_score(y_test, y_pred)
 
-    with open('/tmp/model_accuracy.txt', 'w') as f:
-        f.write(str(accuracy))
+        # Log the model and metrics with MLflow
+        mlflow.log_param("model_type", "RandomForestClassifier")
+        mlflow.log_metric("accuracy", accuracy)
+        mlflow.sklearn.log_model(model, "model")
+
+        with open('/tmp/model_accuracy.txt', 'w') as f:
+            f.write(str(accuracy))
 
 def store_results():
     """Load and print the accuracy score"""
