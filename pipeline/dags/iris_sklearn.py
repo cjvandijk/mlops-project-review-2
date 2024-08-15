@@ -7,6 +7,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import mlflow
 import mlflow.sklearn
+import logging
+
+logging.getLogger("mlflow").setLevel(logging.DEBUG)
 
 mlflow.set_tracking_uri("http://mlflow-release-tracking.default.svc.cluster.local:80")
 mlflow.set_experiment("iris_sklearn_experiment")
@@ -67,7 +70,7 @@ def train_model():
         # Log the model and metrics with MLflow
         mlflow.log_param("model_type", "RandomForestClassifier")
         mlflow.log_metric("accuracy", accuracy)
-        mlflow.sklearn.log_model(model, "model")
+        mlflow.sklearn.log_model(model, "model", pip_requirements=["scikit-learn==1.5.1"])
 
         with open('/tmp/model_accuracy.txt', 'w') as f:
             f.write(str(accuracy))
