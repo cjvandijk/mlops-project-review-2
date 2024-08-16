@@ -96,3 +96,24 @@ git:
         ## Path to a folder in the repository containing the dags
         ##
         path: "/pipeline/dags"
+
+
+## @section Airflow metrics parameters
+metrics:
+  ## @param metrics.enabled Whether or not to create a standalone Airflow exporter to expose Airflow metrics
+  ##
+  enabled: true
+  ## Prometheus Operator ServiceMonitor configuration
+  ##
+  serviceMonitor:
+    ## @param metrics.serviceMonitor.enabled if `true`, creates a Prometheus Operator ServiceMonitor (requires `metrics.enabled` to be `true`)
+    ##
+    enabled: true
+    ## @param metrics.serviceMonitor.interval Interval at which metrics should be scraped
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+    ##
+    interval: ""
+    ## @param metrics.serviceMonitor.scrapeTimeout Timeout after which the scrape is ended
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+    ##
+    scrapeTimeout: ""
