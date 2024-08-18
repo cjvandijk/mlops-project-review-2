@@ -205,11 +205,11 @@ def train_model():
     from sklearn.ensemble import RandomForestRegressor   
     from sklearn.metrics import mean_squared_error
     import pandas as pd
-    import mlflow
-    import mlflow.sklearn
-    
-    mlflow.set_tracking_uri("http://mlflow-release-tracking.default.svc.cluster.local:80")
-    mlflow.set_experiment("air_quality_experiment")
+    # import mlflow
+    # import mlflow.sklearn
+
+    # mlflow.set_tracking_uri("http://mlflow-release-tracking.default.svc.cluster.local:80")
+    # mlflow.set_experiment("air_quality_experiment")
     pg_hook = PostgresHook(postgres_conn_id=postgres_conn_id)
     conn = pg_hook.get_conn()
     cursor = conn.cursor()
@@ -224,18 +224,18 @@ def train_model():
     y = df['rh']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    # Start MLflow run
-    with mlflow.start_run():
-        model = RandomForestRegressor()
-        model.fit(X_train, y_train)
-        y_pred = model.predict(X_test)
+    # # Start MLflow run
+    # with mlflow.start_run():
+    model = RandomForestRegressor()
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
 
-        mse = mean_squared_error(y_test, y_pred)
-        
-        # Log the model and metrics with MLflow
-        mlflow.log_param("model_type", "RandomForestRegressor")
-        mlflow.log_metric("mse", mse)
-        mlflow.sklearn.log_model(model, "model", pip_requirements=["scikit-learn==1.5.1"])
+    mse = mean_squared_error(y_test, y_pred)
+    
+    # # Log the model and metrics with MLflow
+    # mlflow.log_param("model_type", "RandomForestRegressor")
+    # mlflow.log_metric("mse", mse)
+    # mlflow.sklearn.log_model(model, "model", pip_requirements=["scikit-learn==1.5.1"])
 
     
     cursor.close()
