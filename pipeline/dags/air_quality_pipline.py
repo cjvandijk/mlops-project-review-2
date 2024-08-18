@@ -12,7 +12,7 @@ default_args = {
 }
 
 dag = DAG(
-    'etl_air_quality_postgres_training_pipeline',
+    'air_quality_postgres_pipeline',
     default_args=default_args,
     description='ETL + Train Pipeline with Air Quality Dataset using PostgreSQL',
     schedule_interval='@daily',
