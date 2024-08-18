@@ -2,12 +2,6 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
 from airflow.hooks.postgres_hook import PostgresHook
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor   
-from sklearn.metrics import mean_squared_error
-import pandas as pd
-import mlflow
-import mlflow.sklearn
 
 postgres_conn_id = "postgres_air_quality"
 default_args = {
@@ -104,6 +98,7 @@ def extract_data_to_postgres():
     -------
     None
     """
+    import pandas as pd
     # Load the Air Quality dataset
     df = pd.read_csv("https://raw.githubusercontent.com/babaksit/mlops-e2e/develop/data/raw/AirQualityUCI.csv",
                   delimiter=";", decimal=",", usecols=range(15) )
@@ -152,6 +147,7 @@ def transform():
     -------
     None
     """
+    import pandas as pd
     pg_hook = PostgresHook(postgres_conn_id=postgres_conn_id)
     conn = pg_hook.get_conn()
     cursor = conn.cursor()
@@ -205,6 +201,13 @@ def train_model():
     -------
     None
     """
+    from sklearn.model_selection import train_test_split
+    from sklearn.ensemble import RandomForestRegressor   
+    from sklearn.metrics import mean_squared_error
+    import pandas as pd
+    import mlflow
+    import mlflow.sklearn
+    
     mlflow.set_tracking_uri("http://mlflow-release-tracking.default.svc.cluster.local:80")
     mlflow.set_experiment("air_quality_experiment")
     pg_hook = PostgresHook(postgres_conn_id=postgres_conn_id)
