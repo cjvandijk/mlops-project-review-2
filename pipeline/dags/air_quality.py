@@ -9,8 +9,6 @@ import pandas as pd
 import mlflow
 import mlflow.sklearn
 
-mlflow.set_tracking_uri("http://mlflow-release-tracking.default.svc.cluster.local:80")
-mlflow.set_experiment("air_quality_experiment")
 postgres_conn_id = "postgres_air_quality"
 default_args = {
     'owner': 'airflow',
@@ -207,6 +205,8 @@ def train_model():
     -------
     None
     """
+    mlflow.set_tracking_uri("http://mlflow-release-tracking.default.svc.cluster.local:80")
+    mlflow.set_experiment("air_quality_experiment")
     pg_hook = PostgresHook(postgres_conn_id=postgres_conn_id)
     conn = pg_hook.get_conn()
     cursor = conn.cursor()
