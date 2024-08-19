@@ -1,3 +1,10 @@
+## Airflow service parameters
+##
+service:
+  ## @param service.type Airflow service type
+  ##
+  type: LoadBalancer
+  loadBalancerIP: 10.108.94.123
 worker:
 ## @param extraVolumes Optionally specify extra list of additional volumes for the all the Airflow pods
 ##

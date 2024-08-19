@@ -19,10 +19,10 @@ metrics:
       ## e.g:
       ## interval: 10s
       ##
-      interval: ""
+      interval: "30s"
       ## @param tracking.metrics.serviceMonitor.scrapeTimeout Timeout after which the scrape is ended
       ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
       ## e.g:
       ## scrapeTimeout: 10s
       ##
-      scrapeTimeout: ""
+      scrapeTimeout: "30s"
