@@ -17,7 +17,7 @@ dag = DAG(
     max_active_runs=1
 )
 
-def create_table_if_not_exists():
+def create_tables():
     """
     Creates two PostgreSQL tables: air_quality_data and air_quality_data_transformed.
     If these tables exist, they will be dropped and recreated.
@@ -240,9 +240,9 @@ def train_model():
     cursor.close()
     conn.close()
 
-create_table_task = PythonOperator(
-    task_id='create_table_if_not_exists',
-    python_callable=create_table_if_not_exists,
+create_tables_task = PythonOperator(
+    task_id='create_tables',
+    python_callable=create_tables,
     dag=dag,
 )
 
@@ -265,4 +265,4 @@ train_task = PythonOperator(
     dag=dag,
 )
 
-create_table_task >> extract_task >> transform_task >> train_task  
+disable_warning = create_tables_task >> extract_task >> transform_task >> train_task  

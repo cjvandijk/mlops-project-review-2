@@ -1,0 +1,12 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+  - repo: https://github.com/PyCQA/pylint
+    rev: v2.17.3
+    hooks:
+      - id: pylint
+        args: ["--rcfile=.pylintrc", "pipeline", "notebooks", "tests"]
