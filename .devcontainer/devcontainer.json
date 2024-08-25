@@ -2,7 +2,7 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
 	"hostRequirements": {
-    	"cpus": 12,
+    	        "cpus": 12,
 		"memory": "16gb",
    		"storage": "32gb"
 }
